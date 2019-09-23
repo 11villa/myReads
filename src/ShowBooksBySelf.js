@@ -25,8 +25,7 @@ render(props){
 
     return(<div className="bookshelf">
       {myShelves.filter((shelf)=>(this.props.shelf===shelf.name && shelf.name!=='none' ))
-      .map(shelf =>  <h2 className="bookshelf-title">
-      </h2>) }
+      .map(shelf =>  (<h2 key={shelf.id} className="bookshelf-title">{shelf.value} </h2>)) }
    
     <div className="bookshelf-books">
       <ol className="books-grid">
@@ -36,12 +35,13 @@ render(props){
         <li key={book.id}>
           <div className="book">
             <div className="book-top">
-              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+              
+              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: (typeof book.imageLinks === "undefined") ? "":`url(${book.imageLinks.thumbnail})` }}></div>
               <div className="book-shelf-changer">
-                <select  onChange={(e) => this.handleShelfChange(e, book)} >
+                <select value={book.shelf}  onChange={(e) => this.handleShelfChange(e, book)} >
                 <option value="move" disabled>Move to...</option>
-                  {myShelves.map(shelf => (shelf.name===book.shelf?<option key={shelf.id} value={shelf.name} defaultValue>{shelf.value}</option>:<option key={shelf.id} value={shelf.name} >{shelf.value}</option>  ))}
-                </select>
+                {myShelves.map(shelf => (<option key={shelf.id} value={shelf.name}>{shelf.value}</option>))}
+                 </select> 
               </div>
             </div>
             <div className="book-title">{book.title}</div>
