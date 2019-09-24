@@ -28,7 +28,7 @@ class MyBooks extends React.Component{
         </div>
         <div className="open-search">
         
-          <Link to='create' className='open-search'><button>Add a book</button></Link>
+          <Link to='search' className='open-search'><button>Add a book</button></Link>
           
         </div>
       </div>);

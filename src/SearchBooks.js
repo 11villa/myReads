@@ -24,16 +24,21 @@ handleSearch(e){
     BooksAPI.search(e.target.value)
     .then((returnedBooks) => {
         
-        let formatedBooks=[];
-        if(Array.isArray(returnedBooks)){
-            //Format books adding the shelf property 
-            returnedBooks.map((book)=>formatedBooks.push({...book, shelf: "none"} ));
+      let formatedBooks=[];
+      if(Array.isArray(returnedBooks)){
+        //Format books adding the shelf property 
+        returnedBooks.map((book)=>{
+          const shelfVal = this.props.myBooks.filter((myBook)=> book.id === myBook.id).map((myBook)=>myBook.shelf);
+          //console.log("shelfVal",shelfVal);
+          formatedBooks.push({...book, shelf: (typeof shelfVal[0] === "undefined"?"none" :shelfVal[0]) });
+          return 0; 
+        });
         
+       
+
         this.setState(() => ({
             matchedBooks: formatedBooks
-        }
-            
-        ))
+        }))
     }
     else{
         this.setState(() => ({
@@ -57,8 +62,8 @@ handleAddShelf(event, book){
     for (const myBook of returnedBooksNew){
     
         if(myBook.id===book.id){
-        returnedBooksNew.splice(index, 1);
-        
+        returnedBooksNew[index].shelf=event.target.value;
+    
         }
         index++;
     }
@@ -72,7 +77,7 @@ render(){
     return( <div className="search-books">
     <div className="search-books-bar">
       
-      <Link to='' className='create-book'><button className="close-search">Close</button></Link>
+      <Link to='' className='search-book'><button className="close-search">Close</button></Link>
 
       <div className="search-books-input-wrapper">
         <input type="text" 

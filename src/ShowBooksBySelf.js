@@ -30,7 +30,7 @@ render(props){
     <div className="bookshelf-books">
       <ol className="books-grid">
       {this.props.myBooks
-    .filter(book => book.shelf===this.props.shelf)
+    .filter(book => (book.shelf===this.props.shelf)|| this.props.shelf==='none')
       .map(book =>(
         <li key={book.id}>
           <div className="book">
